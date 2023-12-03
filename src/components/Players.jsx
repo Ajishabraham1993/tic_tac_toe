@@ -1,13 +1,20 @@
 import { useState } from "react";
 
-export default function Players({ initialName, symbol }) {
+export default function Players({
+  initialName,
+  symbol,
+  isActive,
+  onChangename,
+}) {
   const [editName, SetName] = useState(initialName);
   const [isEditing, SetisEditing] = useState(false);
   function SetPlayername() {
     SetisEditing((Editing) => !Editing);
+    if (isEditing) {
+      onChangename(symbol,editName);
+    }
   }
   function handleNameChange(event) {
-    console.log(event.target);
     SetName(event.target.value);
   }
   let nameCont = <span className="player-name">{editName}</span>;
@@ -24,7 +31,7 @@ export default function Players({ initialName, symbol }) {
     btn = "Save";
   }
   return (
-    <li>
+    <li className={isActive ? "active" : ""}>
       <span className="player">
         {nameCont}
         <span className="player-symbol">{symbol}</span>
